@@ -11,4 +11,4 @@ echo "COPYING TO $PLUGIN_DIR"
 cp -rv copyq $PLUGIN_DIR
 
 echo "SETTING EXECUTABLE"
-chmod +x $PLUGIN_DIR/main
+chmod +x $PLUGIN_DIR/copyq/main

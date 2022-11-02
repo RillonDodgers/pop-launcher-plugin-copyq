@@ -3,6 +3,8 @@
 This is a plugin for pop-launcher that will return your most recent history of your CopyQ clipboard. You can specify a page number if you want to go farther back. ex:
 `copyq page 2`, `copyq page 3`, etc.
 
+### Screenshot
+![](images/20221102182418.png?raw=true)
 ### Getting Started
 
 ```sh

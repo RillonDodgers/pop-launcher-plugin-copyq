@@ -15,6 +15,7 @@ class MainApp
       case request
       when PluginRequest::Activate then active(request)
       when PluginRequest::Search then search(request)
+      else PluginResponse.clear
       end
     end
   end
