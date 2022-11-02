@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+require 'json'
+require_relative 'lib/plugin_response'
+require_relative 'lib/plugin_request'
+require_relative 'lib/copyq'
+
+class MainApp
+
+  def self.run(...)
+    new.run(...)
+  end
+
+  def run(stdin)
+    PluginRequest.parse(stdin).tap do |request|
+      case request
+      when PluginRequest::Activate then active(request)
+      when PluginRequest::Search then search(request)
+      end
+    end
+  end
+
+  private
+
+  def search(request)
+    CopyQ.new.tap do |cq|
+      PluginResponse.clear
+      range = request.params.size > 0 ? set_range(request) : nil
+      cq.range = range unless range.nil?
+      cq.read.sort.to_h.each {|k, v| PluginResponse::Append.respond!(k, v, "")}
+      PluginResponse.finish
+    end
+  end
+
+  def active(request)
+    CopyQ.select(request.index)
+    PluginResponse.close
+  end
+
+  def set_range(request)
+    return unless request.params.size == 2
+    params = Hash[*request.params]
+    if params.fetch("page", false) && params.fetch("page", 0).to_i > 1
+      num = params.fetch("page").to_i
+      stop = 8 * num - 1
+      start = stop - 8
+      return Range.new(start, stop)
+    end
+    nil
+  end
+
+end
+
+if $PROGRAM_NAME == __FILE__
+  ARGF.each do |stdin|
+    MainApp.run(stdin)
+  end
+end

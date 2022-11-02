@@ -1,0 +1,11 @@
+(
+    name: "CopyQ",
+    description: "Syntax: copyq",
+    query: (
+        regex: "^(copyq).*",
+        help: "copyq",
+        isolate_with: "^(copyq).*",
+    ),
+    bin: (path: "main"),
+    icon: Name("accessories-dictionary-symbolic")
+)
